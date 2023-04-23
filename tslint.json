@@ -1,0 +1,28 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:latest",
+        "tslint-config-prettier",
+        "tslint-plugin-prettier"
+    ],
+    "jsRules": {},
+    "rules": {
+        "no-console": false,
+        "no-bitwise": false,
+        "no-any": false,
+        "array-type": [
+            true,
+            "generic"
+        ],
+        "arrow-return-shorthand": true,
+        "object-literal-sort-keys": false,
+        "no-implicit-dependencies": false,
+        "no-submodule-imports": false
+    },
+    "rulesDirectory": [],
+    "linterOptions": {
+        "exclude": [
+            "node_modules/**"
+        ]
+    }
+}
