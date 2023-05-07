@@ -22,6 +22,14 @@ type Vector = {
 
 const products = readFile();
 
+const pricing = {
+    "text-davinci-003": 0.02,
+    "text-davinci-002": 0.02,
+    "text-curie-001": 0.002,
+    "text-babbage-001": 0.0005,
+    "text-ada-001": 0.0004
+};
+
 (async () => {
     const pinecone = new PineconeClient();
     await pinecone.init({
@@ -35,11 +43,14 @@ const products = readFile();
     fs.writeFileSync(
         `./file/categories.csv`,
         ["Handle", "Predict 1", "Predict 2", "Predict 3", "Predict 4", "Predict 5", "Has Description"].join(",") + "\n"
-    )
+    );
+
+    const model = "text-davinci-003";
     let totalUsedTokens = 0;
-    for (var product of products.slice(0, 100)) {
-        const input = `${product.Title} ${product["Body(HTML)"]?.replace(/(<([^>]+)>)/ig, "")}`
-        const response_keywords = await produceKeywords({ input });
+
+    for (var product of products.slice(0, 10)) {
+        const input = `${product.Title}  ${product["Body(HTML)"]?.replace(/(<([^>]+)>)/ig, "")}`
+        const response_keywords = await produceKeywords({ input, model, lang });
         if (!response_keywords || !response_keywords.choices || !response_keywords.choices[0]) {
             console.log(`${product.Title} ― no keywords`)
             continue;
@@ -70,7 +81,8 @@ const products = readFile();
             `./file/categories.csv`,
             [product.Handle, ...matches?.map((match: any) => match.metadata.categoryName), Boolean(product["Body(HTML)"])].join(",") + "\n"
         )
+        console.log("Cost: ", response_keywords.usage.total_tokens/1000 * pricing[model])
     }
-    console.log(`Total used tokens: ${totalUsedTokens}`)
+    console.log(`Total cost: ${totalUsedTokens/1000 * pricing[model]}. Total used tokens: ${totalUsedTokens}`)
 
 })();
