@@ -1,7 +1,4 @@
 .yarn
-.next
-dist
 node_modules
 package.json
 .github
-public/assets

@@ -1,4 +1,5 @@
-import { env } from "../env.mjs";
+import { env } from "../../env";
+import fetch from "node-fetch";
 
 export const createEmbedding = ({ input }: { input: string | Array<string> }) => {
     var raw = JSON.stringify({
