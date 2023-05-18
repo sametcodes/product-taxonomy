@@ -32,8 +32,6 @@ export const queryCategory = async (req: Request, res: Response) => {
     const namespace = `${platform}${lang ? `_${lang}` : ''}`;
     let response = await searchInVectors(namespace, vector);
 
-    console.log(response)
-
     if (deepSearch === "true") {
         const uid = uuidv4();
         if (!response?.matches) return res.json({ success: false, data: null, error: "No matches found" })
