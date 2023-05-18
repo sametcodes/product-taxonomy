@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { queryCategory, createVectors } from './resolvers';
 import multer from 'multer';
+import bodyParser from 'body-parser';
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -13,9 +14,9 @@ type Route = {
 }
 
 const routes: Array<Route> = [{
-    path: '/category/:platform',
-    method: 'get',
-    middlewares: [],
+    path: '/category/predict/:platform',
+    method: 'post',
+    middlewares: [bodyParser.urlencoded()],
     handler: queryCategory
 }, {
     path: '/category/:platform',

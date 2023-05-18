@@ -20,16 +20,19 @@ export const queryCategory = async (req: Request, res: Response) => {
             error: 'The given platform is not available. Available platforms' + availablePlatforms.join(', ')
         })
     }
-    if (!req.query.input) {
-        return res.status(400).json({ success: false, data: null, error: 'Input param is required' })
+    if (!req.body.input) {
+        return res.status(400).json({ success: false, data: null, error: 'Input data is required' })
     }
-    const { input, deepSearch } = req.query;
     const { platform } = req.params;
+    const { input, deepSearch, lang } = req.body;
 
     const embedding = await createEmbedding({ input: String(input) })
     const vector: number[] = embedding.data[0].embedding;
 
-    let response = await searchInVectors(platform, vector);
+    const namespace = `${platform}${lang ? `_${lang}` : ''}`;
+    let response = await searchInVectors(namespace, vector);
+
+    console.log(response)
 
     if (deepSearch === "true") {
         const uid = uuidv4();
@@ -73,11 +76,13 @@ export const createVectors = async (req: Request, res: Response) => {
     if (!req.file) return res.status(400).json({ error: `You didn't provide a file` });
 
     const platform = req.params.platform;
+    const { lang } = req.body;
     const fileContent = req.file.buffer.toString('utf-8');
 
     const categories = parseCSV(fileContent);
     categories.forEach(throat(50, async (category, index) => {
-        const response = await createCategoryVector(platform, category.id, category.name)
+        const namespace = `${platform}${lang ? `_${lang}` : ''}`;
+        const response = await createCategoryVector(namespace, category.id, category.name)
         if (!response || response.raw.status !== 200) {
             console.log(`ER: [${index + 1}/${categories.length}] ${category.name} couldn't be created`)
         } else {
