@@ -16,7 +16,7 @@ type Route = {
 const routes: Array<Route> = [{
     path: '/category/predict/:platform',
     method: 'post',
-    middlewares: [bodyParser.urlencoded()],
+    middlewares: [bodyParser.urlencoded(), bodyParser.json()],
     handler: queryCategory
 }, {
     path: '/category/:platform',

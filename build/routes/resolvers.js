@@ -64,7 +64,7 @@ var availablePlatforms = [
     "trendyol"
 ];
 var queryCategory = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, input, deepSearch, platform, embedding, vector, response, uid, initial_matches_1, temp_namespace_1;
+    var platform, _a, input, deepSearch, lang, embedding, vector, namespace, response, uid, initial_matches_1, temp_namespace_1;
     var _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
@@ -75,16 +75,17 @@ var queryCategory = function (req, res) { return __awaiter(void 0, void 0, void 
                             error: 'The given platform is not available. Available platforms' + availablePlatforms.join(', ')
                         })];
                 }
-                if (!req.query.input) {
-                    return [2 /*return*/, res.status(400).json({ success: false, data: null, error: 'Input param is required' })];
+                if (!req.body.input) {
+                    return [2 /*return*/, res.status(400).json({ success: false, data: null, error: 'Input data is required' })];
                 }
-                _a = req.query, input = _a.input, deepSearch = _a.deepSearch;
                 platform = req.params.platform;
+                _a = req.body, input = _a.input, deepSearch = _a.deepSearch, lang = _a.lang;
                 return [4 /*yield*/, (0, openai_1.createEmbedding)({ input: String(input) })];
             case 1:
                 embedding = _c.sent();
                 vector = embedding.data[0].embedding;
-                return [4 /*yield*/, (0, pinecone_1.searchInVectors)(platform, vector)];
+                namespace = "".concat(platform).concat(lang ? "_".concat(lang) : '');
+                return [4 /*yield*/, (0, pinecone_1.searchInVectors)(namespace, vector)];
             case 2:
                 response = _c.sent();
                 if (!(deepSearch === "true")) return [3 /*break*/, 5];
@@ -118,7 +119,7 @@ var queryCategory = function (req, res) { return __awaiter(void 0, void 0, void 
 }); };
 exports.queryCategory = queryCategory;
 var createVectors = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var platform, fileContent, categories;
+    var platform, lang, fileContent, categories;
     return __generator(this, function (_a) {
         if (availablePlatforms.includes(req.params.platform) === false) {
             return [2 /*return*/, res.status(400).json({
@@ -129,13 +130,16 @@ var createVectors = function (req, res) { return __awaiter(void 0, void 0, void 
         if (!req.file)
             return [2 /*return*/, res.status(400).json({ error: "You didn't provide a file" })];
         platform = req.params.platform;
+        lang = req.body.lang;
         fileContent = req.file.buffer.toString('utf-8');
         categories = (0, utils_1.parseCSV)(fileContent);
         categories.forEach((0, throat_1.default)(50, function (category, index) { return __awaiter(void 0, void 0, void 0, function () {
-            var response;
+            var namespace, response;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (0, pinecone_1.createCategoryVector)(platform, category.id, category.name)];
+                    case 0:
+                        namespace = "".concat(platform).concat(lang ? "_".concat(lang) : '');
+                        return [4 /*yield*/, (0, pinecone_1.createCategoryVector)(namespace, category.id, category.name)];
                     case 1:
                         response = _a.sent();
                         if (!response || response.raw.status !== 200) {

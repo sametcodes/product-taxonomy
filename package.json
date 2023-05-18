@@ -1,12 +1,13 @@
 {
   "name": "vector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx nodemon",
-    "build": "rm -rf ./build && tsc && cp -r package*.json node_modules ./build"
+    "build": "rm -rf ./build && tsc && cp -r package*.json node_modules ./build",
+    "start:live": "node build/index.js"
   },
   "author": "sametcodes",
   "license": "ISC",
