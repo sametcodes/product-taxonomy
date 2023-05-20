@@ -2,6 +2,7 @@
 import { OpenAIEmbeddings } from "langchain/embeddings/openai"
 import { HNSWLib } from "langchain/vectorstores/hnswlib"
 import { env } from "../../env"
+import fs from 'fs';
 
 const embeddingModel = new OpenAIEmbeddings({
     maxConcurrency: 5,
@@ -22,5 +23,9 @@ export const createCategoryVector = async (platform: string, texts: Array<string
 
 export const searchInVectors = async (platform: string, input: string) => {
     const vectorStore = await HNSWLib.load(`vectors/${platform}`, embeddingModel)
-    return vectorStore.similaritySearch(input, 10)
+    return vectorStore.similaritySearch(input, 20)
+}
+
+export const deleteVectors = async (platform: string) => {
+    fs.rmSync(`vectors/${platform}`, { recursive: true })
 }

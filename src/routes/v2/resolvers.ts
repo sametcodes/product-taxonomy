@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { createCategoryVector, searchInVectors } from "../../lib/vector";
+import { createCategoryVector, deleteVectors, searchInVectors } from "../../lib/vector";
 import { parseCSV } from "../../utils";
+import { v4 as uuidv4 } from 'uuid';
 
 const availablePlatforms = [
     "shopify",
@@ -21,8 +22,19 @@ export const queryCategory = async (req: Request, res: Response) => {
         return res.status(400).json({ success: false, data: null, error: 'Input data is required' })
     }
     const { platform } = req.params;
-    const { input } = req.body;
+    const { input, deepSearch } = req.body;
     const response = await searchInVectors(platform, input);
+
+    if (deepSearch === "true") {
+        const uuid = uuidv4();
+        const texts = response.map(category => category.metadata.categoryName.split('>').slice(-1)[0].trim());
+        const metadatas = response.map(category => ({ id: category.metadata.id, categoryName: category.metadata.categoryName, platform }));
+
+        await createCategoryVector(uuid, texts, metadatas)
+        const similarities = await searchInVectors(uuid, input);
+        await deleteVectors(uuid);
+        return res.json({ success: true, data: similarities, error: null })
+    }
 
     return res.json({
         success: true,
