@@ -50,7 +50,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createVectors = exports.queryCategory = void 0;
+exports.deleteVectors = exports.createVectors = exports.queryCategory = void 0;
 var pinecone_1 = require("../lib/pinecone");
 var openai_1 = require("../lib/openai");
 var utils_1 = require("../utils");
@@ -156,3 +156,15 @@ var createVectors = function (req, res) { return __awaiter(void 0, void 0, void 
     });
 }); };
 exports.createVectors = createVectors;
+var deleteVectors = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var response;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, pinecone_1.deleteNamespace)(req.params.platform)];
+            case 1:
+                response = _a.sent();
+                return [2 /*return*/, res.json(response)];
+        }
+    });
+}); };
+exports.deleteVectors = deleteVectors;

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { queryCategory, createVectors } from './resolvers';
+import { queryCategory, createVectors, deleteVectors } from './resolvers';
 import multer from 'multer';
 import bodyParser from 'body-parser';
 
@@ -23,6 +23,11 @@ const routes: Array<Route> = [{
     method: 'post',
     middlewares: [upload.single("file")],
     handler: createVectors
+}, {
+    path: '/category/:platform',
+    method: 'delete',
+    middlewares: [],
+    handler: deleteVectors
 }]
 
 export default routes;

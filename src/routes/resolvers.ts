@@ -90,3 +90,8 @@ export const createVectors = async (req: Request, res: Response) => {
 
     return res.json({ success: true, data: "OK", error: null })
 }
+
+export const deleteVectors = async (req: Request, res: Response) => {
+    const response = await deleteNamespace(req.params.platform);
+    return res.json(response);
+}
