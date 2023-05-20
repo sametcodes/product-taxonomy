@@ -59,7 +59,7 @@ var uuid_1 = require("uuid");
 var availablePlatforms = [
     "shopify",
     "amazon",
-    "ciceksepeti_test",
+    "ciceksepeti",
     "hepsiburada",
     "trendyol"
 ];

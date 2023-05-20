@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 const availablePlatforms = [
     "shopify",
     "amazon",
-    "ciceksepeti_test",
+    "ciceksepeti",
     "hepsiburada",
     "trendyol"
 ]
