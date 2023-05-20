@@ -1,0 +1,38 @@
+openapi: 3.0.1
+info:
+  title: Category Prediction API
+  version: '1.0'
+servers:
+  - url: 'http://localhost:6006'
+paths:
+  /v2/category/predict/{platform}:
+    post:
+      summary: Predict the category for a given platform
+      operationId: predictCategory
+      parameters:
+        - name: platform
+          in: path
+          description: The name of the platform to make a prediction for
+          required: true
+          schema:
+            type: string
+            enum: [trendyol, hepsiburada, ciceksepeti]
+        - name: input
+          in: query
+          description: The name of the product
+          required: true
+          schema:
+            type: string
+        - name: deepSearch
+          in: query
+          description: Flag to indicate whether a deep search should be performed or not
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request. User input is invalid.
+        '500':
+          description: Internal server error.

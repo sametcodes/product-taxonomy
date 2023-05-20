@@ -4,8 +4,6 @@ import { parseCSV } from "../../utils";
 import { v4 as uuidv4 } from 'uuid';
 
 const availablePlatforms = [
-    "shopify",
-    "amazon",
     "ciceksepeti",
     "hepsiburada",
     "trendyol"
@@ -15,14 +13,14 @@ export const queryCategory = async (req: Request, res: Response) => {
     if (availablePlatforms.includes(req.params.platform) === false) {
         return res.status(400).json({
             success: false, data: null,
-            error: 'The given platform is not available. Available platforms' + availablePlatforms.join(', ')
+            error: 'The given platform is not available. Available platforms ' + availablePlatforms.join(', ')
         })
     }
-    if (!req.body.input) {
+    if (!req.query.input && !req.body.input) {
         return res.status(400).json({ success: false, data: null, error: 'Input data is required' })
     }
-    const { platform } = req.params;
-    const { input, deepSearch } = req.body;
+    const { platform } = req.params ;
+    const { input, deepSearch } = req.body.input ? req.body : req.query;
     const response = await searchInVectors(platform, input);
 
     if (deepSearch === "true") {
