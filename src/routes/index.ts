@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { queryCategory, createVectors, deleteVectors } from './resolvers';
+import * as resolvers from './resolvers';
+import * as resolversV2 from './v2/resolvers';
 import multer from 'multer';
 import bodyParser from 'body-parser';
 
@@ -17,17 +18,27 @@ const routes: Array<Route> = [{
     path: '/category/predict/:platform',
     method: 'post',
     middlewares: [bodyParser.urlencoded(), bodyParser.json()],
-    handler: queryCategory
+    handler: resolvers.queryCategory
 }, {
     path: '/category/:platform',
     method: 'post',
     middlewares: [upload.single("file")],
-    handler: createVectors
+    handler: resolvers.createVectors
 }, {
     path: '/category/:platform',
     method: 'delete',
     middlewares: [],
-    handler: deleteVectors
+    handler: resolvers.deleteVectors
+}, {
+    path: '/v2/category/predict/:platform',
+    method: 'post',
+    middlewares: [bodyParser.urlencoded(), bodyParser.json()],
+    handler: resolversV2.queryCategory
+}, {
+    path: '/v2/category/:platform',
+    method: 'post',
+    middlewares: [upload.single("file")],
+    handler: resolversV2.createVectors
 }]
 
 export default routes;
