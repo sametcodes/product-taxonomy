@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a simple Node.js application that classify e-commerce products into the categories of well-known e-commerce websites like Amazon, Shopify and Google Shopping. It supports multiple languages.
+
+It depends on OpenAI Embeddings API to get the embeddings of categories and products. And it uses Langchain/HNSWLib to build a fast and scalable search index.
+
+### Available endpoints
+
+There are two endpoints mainly. One is to create vectors and the other is for classifying a product into a category. One is based on Pinecone to keep the vectors and the other is based on HNSWLib to keep the vectors locally. Both of them use OpenAI Embeddings API.
+### Pinecone-based (legacy, slower)
+- `POST /category/predict/:platform`
+- `POST /category/:platform` - classify a product into a category of given platform and return the category
+
+### HNSW-based (recommended, faster)
+- `POST /v2/product/predict/:platform` - classify a product into a category of given platform and save them locally
+- `POST /v2/product/:platform` - classify a product into a category of given platform and return the category
 
 ## Getting Started
 
-First, run the development server:
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To run the application in development mode:
 
-[http://localhost:3000/api/hello](http://localhost:3000/api/hello) is an endpoint that uses [Route Handlers](https://beta.nextjs.org/docs/routing/route-handlers). This endpoint can be edited in `app/api/hello/route.ts`.
+```bash
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Production
 
-## Learn More
+To run the application in production mode:
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```bash
+npm run build
+npm run start:live
+```
