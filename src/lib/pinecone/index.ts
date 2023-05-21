@@ -8,12 +8,11 @@ const client = pinecone.init({
     apiKey: env.PINECONE_API_KEY
 });
 
-const index = "taxonomy";
 
 export const searchInVectors = async (namespace: string, vector: number[]) => {
     await client;
 
-    const pineconeIndex = pinecone.Index(index);
+    const pineconeIndex = pinecone.Index(env.PINECONE_INDEX_NAME);
     return pineconeIndex.query({
         queryRequest: {
             namespace,
@@ -44,14 +43,14 @@ export const createCategoryVector = async (namespace: string, id: string, name: 
         }],
     };
 
-    const pineconeIndex = pinecone.Index(index);
+    const pineconeIndex = pinecone.Index(env.PINECONE_INDEX_NAME);
     return pineconeIndex.upsertRaw({ upsertRequest });
 }
 
 export const deleteNamespace = async (namespace: string) => {
     await client;
 
-    const pineconeIndex = pinecone.Index(index);
+    const pineconeIndex = pinecone.Index(env.PINECONE_INDEX_NAME);
     return pineconeIndex.delete1({
         namespace,
         deleteAll: true,
