@@ -1,0 +1,190 @@
+{
+	"info": {
+		"_postman_id": "5c0f6adf-716d-476d-bcbe-0693357c529f",
+		"name": "Product-Taxonomy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "V2",
+			"item": [
+				{
+					"name": "Predict Category (v2)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "input",
+									"value": "Tempcore Cat Bed for Indoor Cats, Machine Washable Cat Beds",
+									"type": "text"
+								},
+								{
+									"key": "deepSearch",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/v2/category/predict/:platform",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v2",
+								"category",
+								"predict",
+								":platform"
+							],
+							"variable": [
+								{
+									"key": "platform",
+									"value": "shopify"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vectorize Category (v2)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/v2/category/:platform",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v2",
+								"category",
+								":platform"
+							],
+							"variable": [
+								{
+									"key": "platform",
+									"value": "shopify"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Predict Category",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "input",
+							"value": "Tempcore Cat Bed for Indoor Cats, Machine Washable Cat Beds",
+							"type": "text"
+						},
+						{
+							"key": "deepSearch",
+							"value": "true",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/category/predict/:platform",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"category",
+						"predict",
+						":platform"
+					],
+					"variable": [
+						{
+							"key": "platform",
+							"value": "shopify"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vectorize Category",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/category/:platform",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"category",
+						":platform"
+					],
+					"variable": [
+						{
+							"key": "platform",
+							"value": "shopify"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:6006"
+		}
+	]
+}
