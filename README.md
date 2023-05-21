@@ -6,13 +6,13 @@ It depends on OpenAI Embeddings API to get the embeddings of categories and prod
 
 There are two endpoints mainly. One is to create vectors and the other is for classifying a product into a category. One is based on Pinecone to keep the vectors and the other is based on HNSWLib to keep the vectors locally. Both of them use OpenAI Embeddings API.
 
-#### Pinecone-based (legacy, slower)
-- `POST /category/predict/:platform`
-- `POST /category/:platform` - classify a product into a category of given platform and return the category
-
 #### HNSW-based (recommended, faster)
-- `POST /v2/product/predict/:platform` - classify a product into a category of given platform and save them locally
-- `POST /v2/product/:platform` - classify a product into a category of given platform and return the category
+- `POST /v2/product/predict/:platform` - creates vectors of categories for the given input file
+- `POST /v2/product/:platform` - returns most-related category for the given product name
+
+#### Pinecone-based (legacy, slower)
+- `POST /category/predict/:platform` - creates vectors of categories for the given input file
+- `POST /category/:platform` - returns most-related category for the given product name
 
 ### How to classify new platform categories
 
